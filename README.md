@@ -1,1 +1,1 @@
-continue from navbar and page.tsx
+proceed from blog page
