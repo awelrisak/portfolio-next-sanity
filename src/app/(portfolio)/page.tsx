@@ -22,14 +22,14 @@ export default async function Page() {
     lastName,
     description
   },
-  "skills": *[_type=="skill"][0].skills
-}`;
+  "skills": *[_type=="skill"][0]
+   }`;
   const data = await getSanityData(QUERY);
 
   return (
     <main className="relative z-0">
       <div className="dark:bg-hero-pattern bg-cover bg-no-repeat bg-center">
-        <Hero {...data.hero } />
+        <Hero {...data.hero} />
       </div>
       <About services={services} />
       <Experience experiences={experiences} />

@@ -1,12 +1,19 @@
 import localFont from "next/font/local";
 
-const geistSans = localFont({
-	src: "./assets/GeistVF.woff",
-	variable: "--font-geist-sans",
-});
-const geistMono = localFont({
-	src: "./assets/GeistMonoVF.woff",
-	variable: "--font-geist-mono",
+const walsheim = localFont({
+  src: [
+    {
+      path: "./assets/GTWalsheim/GTWalsheimProRegular.woff2",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "./assets/GTWalsheim/GTWalsheimProBold.woff2",
+      weight: "700",
+      style: "normal",
+    },
+  ],
+  variable: "--font-serif",
 });
 
-export { geistMono, geistSans };
+export { walsheim };

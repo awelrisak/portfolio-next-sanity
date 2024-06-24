@@ -3,7 +3,7 @@
 import { Icons } from "@/components/icons";
 import { ModeToggle } from "@/components/mode-toggle";
 import { Button } from "@/components/ui/button";
-import { portfolioConfig } from "@/config/portfolio";
+import { blogConfig } from "@/config/blog";
 import { siteConfig } from "@/config/site";
 import { useActiveItem } from "@/hooks/use-active-item";
 import { cn } from "@/lib/utils";
@@ -12,12 +12,13 @@ import Link from "next/link";
 import { useSelectedLayoutSegment } from "next/navigation";
 import { useState } from "react";
 import slugify from "slugify";
+import { NavigationMenuDemo } from "../nav-menu";
 const DynamicMenubar = dynamic(() => import("@/components/menubar"));
 
 export function Header() {
   const segment = useSelectedLayoutSegment();
   const [showMobileMenu, setShowMobileMenu] = useState<boolean>(false);
-  const items = portfolioConfig.mainNav;
+  const items = blogConfig.mainNav;
   const itemIds = items?.map((item) => slugify(item.title)) || [];
 
   const active = useActiveItem(itemIds); // TODO: fix this
@@ -33,7 +34,9 @@ export function Header() {
 
       {/* NAVBAR  */}
 
-      <nav className="hidden gap-6 md:flex">
+      {/* <NavigationMenuDemo /> */}
+
+      {/* <nav className="hidden gap-6 md:flex">
         {items?.map((item) => (
           <Link
             key={item.href}
@@ -51,12 +54,12 @@ export function Header() {
             {item.title}
           </Link>
         ))}
-      </nav>
+      </nav> */}
 
       {/* UTILS BUTTONS  */}
 
       <div className="flex gap-4">
-        <Button variant="ghost" size="icon" asChild className="hidden md:inline-flex">
+        <Button variant="ghost" size="icon" asChild>
           <Link href="https://www.twitter.com/abdirizakafarah" target="_blank">
             <Icons.twitter className="size-[1.2rem]" />
           </Link>

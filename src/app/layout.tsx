@@ -1,12 +1,11 @@
-import type { Metadata, Viewport } from "next";
-import "@/styles/globals.css";
-import { Analytics } from "@/components/analytics";
 import { TailwindIndicator } from "@/components/tailwind-indicator";
 import { ThemeProvider } from "@/components/theme-provider";
 import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
+import "@/styles/globals.css";
+import type { Metadata, Viewport } from "next";
 import NextTopLoader from "nextjs-toploader";
-import { geistMono, geistSans } from "./fonts";
+import { walsheim } from "./fonts";
 
 export const metadata: Metadata = {
   applicationName: siteConfig.name,
@@ -49,12 +48,8 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#915EFF" },
-    { media: "(prefers-color-scheme: dark)", color: "black" },
-  ],
+  themeColor: "#915EFF",
 };
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -64,9 +59,8 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body
         className={cn(
-          "min-h-screen bg-background font-sans antialiased",
-          geistMono.variable,
-          geistSans.variable,
+          "min-h-screen bg-background font-serif antialiased",
+          walsheim.variable,
         )}
       >
         <NextTopLoader

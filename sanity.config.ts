@@ -1,5 +1,5 @@
 "use client";
-
+import {theme} from 'https://themer.sanity.build/api/hues?primary=915eff'
 import { structure } from "@/sanity/structure";
 import { codeInput } from "@sanity/code-input";
 import { visionTool } from "@sanity/vision";
@@ -12,7 +12,6 @@ export default defineConfig({
   basePath: "/admin",
   projectId,
   dataset,
-  // Add and edit the content schema in the './sanity/schema' folder
   schema,
   document: {
     actions: (input, context) =>

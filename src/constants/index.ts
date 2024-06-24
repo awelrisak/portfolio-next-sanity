@@ -110,9 +110,7 @@ export const skills: Skill[] = [
   },
   {
     title: "UI Design",
-    technologies: [
-      { name: "Figma", icon: figma }
-    ],
+    technologies: [{ name: "Figma", icon: figma }],
   },
 ];
 
@@ -299,5 +297,63 @@ const projects: Project[] = [
   },*/
 ];
 
+const posts = [
+  {
+    id: "1",
+    title: "Exploring the Bustling Markets of Nairobi",
+    description:
+      "Immerse yourself in the vibrant atmosphere of Nairobi's markets, where you can find everything from fresh produce and handcrafted souvenirs to local delicacies and colorful textiles. This blog explores some of the must-visit markets in the Kenyan capital, offering a glimpse into the city's rich culture and commerce.",
+    image: "https://source.unsplash.com/random/804x452?random=1",
+    publishedDate: "2024-06-20T00:00:00.000Z",
+  },
+  {
+    id: "2",
+    title: "A Hike Up Mount Kenya: A Challenge Worth Taking",
+    description:
+      "For the adventurous spirit, Mount Kenya offers a thrilling climb with breathtaking views. This blog details the different routes, the necessary preparations, and what to expect on your trek to the peak of Kenya's highest mountain.",
+    image: "https://source.unsplash.com/random/804x452?random=1",
+    publishedDate: "2024-06-19T00:00:00.000Z",
+  },
+  {
+    id: "3",
+    title: "The Wildlife Spectacle: A Kenyan Safari Adventure",
+    description:
+      "Embark on an unforgettable safari experience in Kenya and witness the majestic wildlife roaming free across the savannas. This blog explores the different safari options, the diverse animals you might encounter, and tips for making the most of your African adventure.",
+    image: "https://source.unsplash.com/random/804x452?random=1",
+    publishedDate: "2024-06-18T00:00:00.000Z",
+  },
+  {
+    id: "4",
+    title: "Unveiling the History of Nairobi National Museum",
+    description:
+      "Step back in time and delve into Kenya's rich history at the Nairobi National Museum. This blog explores the museum's exhibits, from ancient artifacts and fossils to cultural displays and wildlife presentations, offering a window into Kenya's past and present.",
+    image: "https://source.unsplash.com/random/804x452?random=1",
+    publishedDate: "2024-06-17T00:00:00.000Z",
+  },
+  {
+    id: "5",
+    title: "The Culinary Delights of Kenyan Cuisine",
+    description:
+      "Tantalize your taste buds with the unique flavors of Kenyan cuisine. This blog explores the traditional dishes you must try, the fresh ingredients used, and the cultural significance of food in Kenya.",
+    image: "https://source.unsplash.com/random/804x452?random=1",
+    publishedDate: "2024-06-16T00:00:00.000Z",
+  },
+  {
+    id: "6",
+    title: "The Artistic Tapestry: Exploring Kenyan Crafts and Markets",
+    description:
+      "Discover the vibrant world of Kenyan crafts and immerse yourself in the artistic heritage of the country. This blog explores the different types of crafts, the traditional techniques used, and the best places to find unique souvenirs in Nairobi's markets.",
+    image: "https://source.unsplash.com/random/804x452?random=1",
+    publishedDate: "2024-06-15T00:00:00.000Z",
+  },
+  {
+    id: "7",
+    title: "Nairobi's Bustling Coffee Scene: A Caffeinated Adventure",
+    description:
+      "Kenya is renowned for its high-quality coffee, and Nairobi offers a vibrant coffee scene to explore. This blog dives into the city's cafes, the different coffee brewing methods, and the perfect cup of Kenyan coffee to savor.",
+    image: "https://source.unsplash.com/random/804x452?random=1",
+    publishedDate: "2024-06-14T00:00:00.000Z",
+  },
+];
 
-export { experiences, projects, services, testimonials };
+export { experiences, projects, services, testimonials, posts };

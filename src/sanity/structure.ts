@@ -6,42 +6,14 @@ export const structure = (S: StructureBuilder) =>
   S.list()
     .title("Content")
     .items([
-      S.listItem()
-        .title("Portfolio")
-        .icon(Icons.work)
-        .child(
-          S.list()
-            .title("Portfolio")
-            .items([
-              S.listItem()
-                .title("Hero")
-                .icon(Icons.stars)
-                .child(
-                  S.document()
-                    .schemaType("portfolio_hero")
-                    .documentId("portfolio_hero"),
-                ),
-              S.listItem()
-                .title("Experience")
-                .icon(Icons.badge)
-                .child(S.documentTypeList("experience").title("Experience")),
-              S.listItem()
-                .title("Projects")
-                .icon(Icons.viewCozy)
-                .child(S.documentTypeList("project").title("Projects")),
-              S.listItem()
-                .title("Skills")
-                .icon(Icons.ballot)
-                .child(S.document().schemaType("skill").documentId("skills")),
-            ]),
-        ),
-      S.divider(),
+      /* BLOG */
       S.listItem()
         .title("Blog")
         .icon(Icons.blog)
         .child(S.documentTypeList("post").title("Blog Posts")),
+      /* FILTER BLOG POST */
       S.listItem()
-        .title("Filter Posts")
+        .title("Filter Blog Posts")
         .icon(Icons.filterList)
         .child(
           S.list()
@@ -64,8 +36,15 @@ export const structure = (S: StructureBuilder) =>
             ]),
         ),
       S.divider(),
+      /* SCHEMA TYPES EXCEPT EXCLUDED ONE */
       ...S.documentTypeListItems().filter(
         // biome-ignore lint/style/noNonNullAssertion: <explanation>
         (listItem) => !excludedListTypes.has(listItem.getId()!),
       ),
+      S.divider(),
+      /* PORTFOLIO */
+      S.listItem()
+        .title("Portfolio")
+        .icon(Icons.work)
+        .child(S.document().schemaType("portfolio").documentId("portfolio")),
     ]);

@@ -1,5 +1,3 @@
-import { Icons } from "@/components/icons";
-
 export const richText = {
   name: "richText",
   title: "Richtext",
@@ -24,9 +22,11 @@ export const richText = {
     },
     {
       type: "customImage",
+      title: "Image",
     },
     {
       type: "customCode",
+      title: "Code",
     },
   ],
 };

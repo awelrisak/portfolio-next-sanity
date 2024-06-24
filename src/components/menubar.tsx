@@ -4,7 +4,6 @@ import { cn } from "@/lib/utils";
 
 import { usePreventScroll } from "@/hooks/use-prevent-scroll";
 import type { MainNavItem } from "@/types";
-import { ModeToggle } from "../mode-toggle";
 
 interface MenubarProps {
   items: MainNavItem[];
@@ -19,7 +18,7 @@ const Menubar = ({ items, handleClose, children }: MenubarProps) => {
     <div
       onClick={handleClose}
       className={cn(
-        "fixed inset-0 top-16 z-50 grid h-[calc(100vh-4rem)] grid-flow-row auto-rows-max overflow-auto p-6 pb-32 shadow-md  md:hidden bg-background/95 backdrop-blur-xl",
+        "md:hidden fixed p-6 inset-0 bg-popover top-16 z-50 grid h-[calc(100vh-4rem)] grid-flow-row auto-rows-max overflow-auto  ",
       )}
     >
       <div className="relative z-20 grid gap-6 rounded-md bg-popover p-4 text-popover-foreground shadow-md animate-in slide-in-from-bottom-80">

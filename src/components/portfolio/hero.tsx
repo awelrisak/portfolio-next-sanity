@@ -12,27 +12,29 @@ export function Hero({
   description,
 }: HeroProps) {
   return (
-    <section className="relative w-full h-[calc(100vh-5rem)] mx-auto flex flex-col justify-center">
-      <div className="absolute max-w-3xl padding-x flex flex-row items-start gap-5 mx=auto">
-        <div className="flex flex-col justify-center items-center mt-5">
-          <div className="w-5 h-5 rounded-full bg-primary" />
-          <div className="w-1 sm:h-80 h-40 violet-gradient" />
+    <section className="relative w-full h-[calc(100vh-5rem)] mx-auto flex flex-col justify-center ">
+      <div className="max-w-3xl padding-x flex  items-start gap-5 mx=auto">
+        <div className="hidden dark:flex h-full flex-col justify-center items-center">
+          <div className="size-5 rounded-full bg-primary" />
+          <div className="w-1 flex-1 violet-gradient" />
         </div>
 
-        <div>
+        <div className="space-y-2">
           {greeting && (
-            <span className="font-black lg:text-6xl sm:text-5xl xs:text-4xl text-3xl">
+            <span className="font-bold text-3xl lg:text-5xl  ">
               {greeting}
             </span>
           )}
           &nbsp;
           <br />
-          <h2 className="leading-normal font-black lg:text-8xl sm:text-[60px] xs:text-[50px] text-[40px]">
-            <strong className="text-primary">{firstName}</strong>
+          <h2 className="leading-none font-bold text-5xl lg:text-7xl">
+            <strong className="text-[#915EFF]">{firstName}</strong>
             <br />
-            <strong className="text-primary">{lastName}</strong>
+            <strong className="text-[#915EFF]">{lastName}</strong>
           </h2>
-          <p className="hero-subtext mt-2 ">{description}</p>
+          <p className="text-muted-foreground font-medium text-2xl md:text-3xl ">
+            {description}
+          </p>
         </div>
       </div>
     </section>

@@ -1,5 +1,5 @@
 import type { Config } from "tailwindcss";
-
+import { fontFamily } from "tailwindcss/defaultTheme";
 const config = {
   darkMode: ["class"],
   content: [
@@ -14,14 +14,13 @@ const config = {
       center: true,
       padding: "2rem",
       screens: {
-        
         "2xl": "1400px",
       },
     },
     extend: {
-		screens: {
-			xs: "450px",
-		},
+      screens: {
+        xs: "450px",
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -66,6 +65,15 @@ const config = {
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
+      fontFamily: {
+        serif: [
+          "var(--font-serif)",
+          "Helvetica Neue",
+          "Helvetica",
+          "Arial",
+          ...fontFamily.serif,
+        ],
+      },
       backgroundImage: {
         "hero-pattern": "url('/assets/herobg.png')",
       },
@@ -85,7 +93,13 @@ const config = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [
+    require("tailwindcss-animate"),
+    require("tailwind-scrollbar")({
+      nocompatible: true,
+      preferredStrategy: "pseudoelements",
+    }),
+  ],
 } satisfies Config;
 
 export default config;

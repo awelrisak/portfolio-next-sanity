@@ -1,4 +1,13 @@
-import { Command, Menu, Moon, SunMedium, X } from "lucide-react";
+import {
+  Check,
+  Clipboard,
+  Code,
+  Command,
+  Menu,
+  Moon,
+  SunMedium,
+  X
+} from "lucide-react";
 
 import {
   IoLogoFacebook,
@@ -11,18 +20,17 @@ import {
 
 import {
   MdBadge,
+  MdBallot,
   MdCategory,
   MdChevronLeft,
   MdChevronRight,
   MdFilterList,
-  MdBallot,
   MdGroup,
   MdPerson,
   MdRssFeed,
   MdStars,
   MdViewCozy,
-  MdWork,
-  MdCode,
+  MdWork
 } from "react-icons/md";
 
 export type Icon = (typeof Icons)[keyof typeof Icons];
@@ -51,5 +59,7 @@ export const Icons = {
   badge: MdBadge,
   viewCozy: MdViewCozy,
   ballot: MdBallot,
-  code: MdCode
+  code: Code,
+  clipbord: Clipboard,
+  check: Check,
 };

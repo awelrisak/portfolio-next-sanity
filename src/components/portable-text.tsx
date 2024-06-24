@@ -1,15 +1,25 @@
+import { CopyButton } from "@/components/copy-button";
 import { urlForImage } from "@/sanity/lib/image";
 import {
   type PortableTextComponents,
-  type PortableTextProps,
+  type PortableTextProps as PortableTextPropsType,
   PortableText as PortableTextReact,
   toPlainText,
 } from "@portabletext/react";
 import Image from "next/image";
 import Link from "next/link";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import slugify from "slugify";
 
-export default function PortableText({ ...props }: PortableTextProps) {
+interface PortableTextProps {
+  components?: PortableTextComponents;
+}
+
+export default function PortableText({
+  components = portableTextComponents,
+  ...props
+}: PortableTextProps & PortableTextPropsType) {
   return <PortableTextReact components={portableTextComponents} {...props} />;
 }
 
@@ -25,6 +35,7 @@ const portableTextComponents: PortableTextComponents = {
         className="my-8 rounded-md border bg-muted transition-colors"
       />
     ),
+    customCode: Code,
   },
   marks: {
     link: ({ children, value }) => {
@@ -57,7 +68,7 @@ const portableTextComponents: PortableTextComponents = {
   block: {
     // biome-ignore lint/suspicious/noExplicitAny: <explanation>
     normal: ({ children }: any) => (
-      <p className="leading-7 [&:not(:first-child)]:mt-6">{children}</p>
+      <p className="text-muted-foreground leading-7 [&:not(:first-child)]:mt-6">{children}</p>
     ),
     // biome-ignore lint/suspicious/noExplicitAny: <explanation>
     h1: ({ children, value }: any) => (
@@ -117,10 +128,35 @@ const portableTextComponents: PortableTextComponents = {
     blockquote: ({ children, value }: any) => (
       <blockquote
         id={slugify(toPlainText(value))}
-        className="mt-6 border-l-2 pl-6 italic [&>*]:text-muted-foreground"
+        className="mt-6 text-muted-foreground border-l-2 pl-6 italic [&>*]:text-muted-foreground"
       >
         {children}
       </blockquote>
     ),
   },
 };
+
+// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+function Code({ value }: any) {
+  const code = String(value.code.code.replace(/\n/, ""));
+
+  return (
+    <div className="my-6">
+      {value.code.filename && (
+        <div className="bg-muted py-2 px-4 flex justify-between items-center">
+          <h2 className="font-mono font-bold text-muted-foreground flex-1 overflow-x-auto ">
+            {value.code.filename}
+          </h2>
+          <CopyButton value={code} />
+        </div>
+      )}
+
+      <SyntaxHighlighter
+        language={value.language}
+        style={oneDark}
+      >
+        {code}
+      </SyntaxHighlighter>
+    </div>
+  );
+}
