@@ -4,7 +4,6 @@ import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
 import "@/styles/globals.css";
 import type { Metadata, Viewport } from "next";
-import Head from "next/head";
 import NextTopLoader from "nextjs-toploader";
 import { walsheim } from "./fonts";
 
@@ -84,10 +83,6 @@ export default function RootLayout({
       suppressHydrationWarning
       className="scroll-smooth focus:scroll-auto "
     >
-      <Head>
-        <meta name="msapplication-TileColor" content="#915eff" />
-        <meta name="msapplication-TileImage" content="/mstile-144x144.png" />
-      </Head>
       <body
         className={cn(
           "min-h-screen bg-background font-serif primary-scrollbar antialiased",
