@@ -1,4 +1,3 @@
-import { CopyButton } from "@/components/copy-button";
 import { urlForImage } from "@/sanity/lib/image";
 import {
   type PortableTextComponents,
@@ -8,25 +7,24 @@ import {
 } from "@portabletext/react";
 import Image from "next/image";
 import Link from "next/link";
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
-import slugify from "slugify";
 
-interface PortableTextProps {
+import slugify from "slugify";
+import { CodeInput } from "./code-input";
+
+interface PortableTextProps extends PortableTextPropsType {
   components?: PortableTextComponents;
 }
 
-export default function PortableText({
+export function PortableText({
   components = portableTextComponents,
   ...props
-}: PortableTextProps & PortableTextPropsType) {
+}: PortableTextProps) {
   return <PortableTextReact components={portableTextComponents} {...props} />;
 }
 
 const portableTextComponents: PortableTextComponents = {
   types: {
-    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-    image: ({ value }: any) => (
+    customImage: ({ value }) => (
       <Image
         src={urlForImage(value)}
         alt="Post"
@@ -35,7 +33,17 @@ const portableTextComponents: PortableTextComponents = {
         className="my-8 rounded-md border bg-muted transition-colors"
       />
     ),
-    customCode: Code,
+
+    customCode: ({ value }) => {
+      const code = String(value.code.code);
+      return (
+        <CodeInput
+          code={code}
+          language={value.language}
+          filename={value.code.filename}
+        />
+      );
+    },
   },
   marks: {
     link: ({ children, value }) => {
@@ -52,6 +60,11 @@ const portableTextComponents: PortableTextComponents = {
         </Link>
       );
     },
+    code: ({ value, children }) => (
+      <code className="relative rounded border px-[0.3rem] py-[0.2rem] font-mono text-sm">
+        {children}
+      </code>
+    ),
   },
   list: {
     bullet: ({ children }) => (
@@ -66,12 +79,11 @@ const portableTextComponents: PortableTextComponents = {
     number: ({ children }) => <li className="mt-2">{children}</li>,
   },
   block: {
-    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-    normal: ({ children }: any) => (
-      <p className="text-muted-foreground leading-7 [&:not(:first-child)]:mt-6">{children}</p>
+    normal: ({ children }) => (
+      <p className="leading-7 [&:not(:first-child)]:mt-6">{children}</p>
     ),
-    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-    h1: ({ children, value }: any) => (
+
+    h1: ({ children, value }) => (
       <h1
         id={slugify(toPlainText(value))}
         className="mt-2 scroll-m-20 text-4xl font-bold tracking-tight"
@@ -79,8 +91,8 @@ const portableTextComponents: PortableTextComponents = {
         {children}
       </h1>
     ),
-    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-    h2: ({ children, value }: any) => (
+
+    h2: ({ children, value }) => (
       <h2
         id={slugify(toPlainText(value))}
         className="mt-10 scroll-m-20 border-b pb-1 text-3xl font-semibold tracking-tight first:mt-0"
@@ -88,8 +100,8 @@ const portableTextComponents: PortableTextComponents = {
         {children}
       </h2>
     ),
-    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-    h3: ({ children, value }: any) => (
+
+    h3: ({ children, value }) => (
       <h3
         id={slugify(toPlainText(value))}
         className="mt-8 scroll-m-20 text-2xl font-semibold tracking-tight"
@@ -97,8 +109,8 @@ const portableTextComponents: PortableTextComponents = {
         {children}
       </h3>
     ),
-    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-    h4: ({ children, value }: any) => (
+
+    h4: ({ children, value }) => (
       <h4
         id={slugify(toPlainText(value))}
         className="mt-8 scroll-m-20 text-xl font-semibold tracking-tight"
@@ -106,8 +118,7 @@ const portableTextComponents: PortableTextComponents = {
         {children}
       </h4>
     ),
-    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-    h5: ({ children, value }: any) => (
+    h5: ({ children, value }) => (
       <h5
         id={slugify(toPlainText(value))}
         className="mt-8 scroll-m-20 text-lg font-semibold tracking-tight"
@@ -115,8 +126,7 @@ const portableTextComponents: PortableTextComponents = {
         {children}
       </h5>
     ),
-    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-    h6: ({ children, value }: any) => (
+    h6: ({ children, value }) => (
       <h6
         id={slugify(toPlainText(value))}
         className="mt-8 scroll-m-20 text-base font-semibold tracking-tight"
@@ -124,8 +134,7 @@ const portableTextComponents: PortableTextComponents = {
         {children}
       </h6>
     ),
-    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-    blockquote: ({ children, value }: any) => (
+    blockquote: ({ children, value }) => (
       <blockquote
         id={slugify(toPlainText(value))}
         className="mt-6 text-muted-foreground border-l-2 pl-6 italic [&>*]:text-muted-foreground"
@@ -135,28 +144,3 @@ const portableTextComponents: PortableTextComponents = {
     ),
   },
 };
-
-// biome-ignore lint/suspicious/noExplicitAny: <explanation>
-function Code({ value }: any) {
-  const code = String(value.code.code.replace(/\n/, ""));
-
-  return (
-    <div className="my-6">
-      {value.code.filename && (
-        <div className="bg-muted py-2 px-4 flex justify-between items-center">
-          <h2 className="font-mono font-bold text-muted-foreground flex-1 overflow-x-auto ">
-            {value.code.filename}
-          </h2>
-          <CopyButton value={code} />
-        </div>
-      )}
-
-      <SyntaxHighlighter
-        language={value.language}
-        style={oneDark}
-      >
-        {code}
-      </SyntaxHighlighter>
-    </div>
-  );
-}

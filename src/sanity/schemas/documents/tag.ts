@@ -1,10 +1,10 @@
 import { Icons } from "@/components/icons";
 import type { Rule, SchemaTypeDefinition } from "sanity";
 
-export const category: SchemaTypeDefinition = {
-  name: "category",
-  title: "Category",
-  icon: Icons.category,
+export const tag: SchemaTypeDefinition = {
+  name: "tag",
+  title: "Tag",
+  icon: Icons.tags,
   type: "document",
   fields: [
     {
@@ -12,7 +12,7 @@ export const category: SchemaTypeDefinition = {
       title: "Tag Name",
       type: "string",
       validation: (rule: Rule) => [
-        rule.required().error("Category name is required."),
+        rule.required().error("Tag name is required."),
       ],
     },
     {

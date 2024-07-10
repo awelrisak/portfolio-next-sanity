@@ -5,7 +5,7 @@ export const author: SchemaTypeDefinition = {
   name: "author",
   title: "Author",
   type: "document",
-  icon: Icons.person,
+  icon: Icons.user,
   fields: [
     {
       name: "name",

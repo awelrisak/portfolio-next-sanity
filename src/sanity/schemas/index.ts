@@ -1,24 +1,26 @@
 import type { SchemaTypeDefinition } from "sanity";
 
 import { author } from "./documents/author";
-import { category } from "./documents/category";
+import { tag } from "./documents/tag";
 import { portfolio } from "./documents/portfolio";
 import { post } from "./documents/post";
 import { customCode } from "./objects/custom-code";
 import { customImage } from "./objects/custom-image";
 import { portfolioHeroObject } from "./objects/portfolio/hero";
 import { richText } from "./objects/richtext";
+import { alert } from "./objects/alert";
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
     post,
     author,
-    category,
+    tag,
     portfolio,
     /* OBJECTS */
     richText,
     customImage,
     customCode,
+    alert,
     //Porfolio objects
     portfolioHeroObject,
   
@@ -41,3 +43,4 @@ export const excludedListTypes = new Set(["post", "portfolio"]);
 // 2) experience
 // 3) skill
 // 4) projects
+// 5) category

@@ -24,8 +24,7 @@ export function Header() {
   const active = useActiveItem(itemIds); // TODO: fix this
 
   return (
-    <header className="container sticky top-0  h-20 flex items-center justify-between z-40 bg-background/95 backdrop-blur-xl ">
-      {/* LOGO  */}
+    <header className="container sticky top-0  h-16 flex items-center justify-between z-40 bg-background/95 backdrop-blur-xl ">
       <Link href="/" className="flex items-center">
         <span className="font-black text-xl inline-block">
           {siteConfig.name}
@@ -59,11 +58,6 @@ export function Header() {
       {/* UTILS BUTTONS  */}
 
       <div className="flex gap-4">
-        <Button variant="ghost" size="icon" asChild>
-          <Link href="https://www.twitter.com/abdirizakafarah" target="_blank">
-            <Icons.twitter className="size-[1.2rem]" />
-          </Link>
-        </Button>
         <Button variant="ghost" size="icon" asChild>
           <Link href="https://www.github.com/awelrisak" target="_blank">
             <Icons.github className="size-[1.2rem]" />

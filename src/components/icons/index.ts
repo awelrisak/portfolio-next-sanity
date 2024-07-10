@@ -1,11 +1,20 @@
 import {
+  BadgeAlert,
+  Briefcase,
   Check,
+  ChevronLeft,
+  ChevronRight,
   Clipboard,
   Code,
   Command,
+  Filter,
   Menu,
   Moon,
+  Rss,
   SunMedium,
+  Tags,
+  User,
+  Users,
   X
 } from "lucide-react";
 
@@ -22,15 +31,8 @@ import {
   MdBadge,
   MdBallot,
   MdCategory,
-  MdChevronLeft,
-  MdChevronRight,
-  MdFilterList,
-  MdGroup,
-  MdPerson,
-  MdRssFeed,
   MdStars,
-  MdViewCozy,
-  MdWork
+  MdViewCozy
 } from "react-icons/md";
 
 export type Icon = (typeof Icons)[keyof typeof Icons];
@@ -38,9 +40,9 @@ export type Icon = (typeof Icons)[keyof typeof Icons];
 export const Icons = {
   logo: Command,
   close: X,
-  chevronLeft: MdChevronLeft,
-  chevronRight: MdChevronRight,
-  person: MdPerson,
+  chevronLeft: ChevronLeft,
+  chevronRight: ChevronRight,
+  user: User,
   sun: SunMedium,
   moon: Moon,
   twitter: IoLogoTwitter,
@@ -50,11 +52,10 @@ export const Icons = {
   mail: IoMail,
   github: IoLogoGithub,
   menu: Menu,
-  blog: MdRssFeed,
+  blog: Rss,
   category: MdCategory,
-  filterList: MdFilterList,
-  group: MdGroup,
-  work: MdWork,
+  filterList: Filter,
+  users: Users,
   stars: MdStars,
   badge: MdBadge,
   viewCozy: MdViewCozy,
@@ -62,4 +63,7 @@ export const Icons = {
   code: Code,
   clipbord: Clipboard,
   check: Check,
+  tags: Tags,
+  briefcase: Briefcase,
+  badgeAlert: BadgeAlert
 };

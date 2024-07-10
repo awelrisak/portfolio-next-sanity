@@ -5,20 +5,6 @@ export const richText = {
   of: [
     {
       type: "block",
-      marks: {
-        decorators: [
-          {
-            title: "Strong",
-            value: "strong",
-          },
-          {
-            title: "Emphasis",
-            value: "em",
-          },
-          { title: "Underline", value: "underline" },
-          { title: "Strike", value: "strike-through" },
-        ],
-      },
     },
     {
       type: "customImage",
@@ -27,6 +13,10 @@ export const richText = {
     {
       type: "customCode",
       title: "Code",
+    },
+    {
+      type: "alert",
+      title: "Alert",
     },
   ],
 };

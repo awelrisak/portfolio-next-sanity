@@ -21,18 +21,32 @@ export const structure = (S: StructureBuilder) =>
             .items([
               S.listItem()
                 .title("By author")
-                .icon(Icons.group)
+                .icon(Icons.users)
                 .child(
                   S.documentTypeList("author")
                     .title("Filter posts by author")
                     .child((authorId) =>
                       S.documentList()
                         .params({ authorId })
-                        .filter('_type == "post" && author._ref == $authorId')
-                        .title("Posts"),
+                        .filter(
+                          '_type == "post" && $authorId in author[]._ref',
+                        )
+                        .title("Posts by author"),
                     ),
                 ),
-              S.listItem().title("By category").icon(Icons.category),
+              S.listItem()
+                .title("By tags")
+                .icon(Icons.tags)
+                .child(
+                  S.documentTypeList("tag")
+                    .title("filter posts by tags")
+                    .child((tagId) =>
+                      S.documentList()
+                        .params({ tagId })
+                        .filter('_type == "post" && $tagId in tags[]._ref')
+                        .title("Posts by tags"),
+                    ),
+                ),
             ]),
         ),
       S.divider(),
@@ -45,6 +59,6 @@ export const structure = (S: StructureBuilder) =>
       /* PORTFOLIO */
       S.listItem()
         .title("Portfolio")
-        .icon(Icons.work)
+        .icon(Icons.briefcase)
         .child(S.document().schemaType("portfolio").documentId("portfolio")),
     ]);

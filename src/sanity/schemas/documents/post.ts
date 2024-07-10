@@ -1,4 +1,5 @@
 import { Icons } from "@/components/icons";
+import moment from 'moment';
 import type { Rule, SchemaTypeDefinition } from "sanity";
 
 export const post: SchemaTypeDefinition = {
@@ -89,19 +90,28 @@ export const post: SchemaTypeDefinition = {
       ],
     },
     {
-      name: "categories",
-      title: "Categories",
+      name: "tags",
+      title: "Tags",
       type: "array",
       description:
         "Keywords related to your post to categorize and improve searchability.",
-      of: [{ type: "reference", to: [{ type: "category" }] }],
+      of: [{ type: "reference", to: [{ type: "tag" }] }],
     },
   ],
   preview: {
     select: {
       title: "title",
-      media: "coverImage",
-      subtitle: "publishedAt",
+      image: "coverImage",
+      publishedAt: "publishedAt",
+
     },
+    prepare({title, image, publishedAt}){
+      const formattedDate = moment(publishedAt).format("LLL")
+      return {
+        title,
+        media: image,
+        subtitle: formattedDate
+      }
+    }
   },
 };

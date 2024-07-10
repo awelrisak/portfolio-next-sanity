@@ -3,11 +3,9 @@
 @tailwind utilities;
 
 
-
-
 @layer base {
   :root {
-    --background: 0 0% 100%;
+    --background: 0 0% 95%;
     --foreground: 224 71.4% 4.1%;
     --card: 0 0% 100%;
     --card-foreground: 224 71.4% 4.1%;
@@ -74,6 +72,11 @@
 }
 
 @layer components {
+
+  /*SCROLLBAR*/
+  .primary-scrollbar {
+    @apply scrollbar scrollbar-stable scrollbar-w-2.5 scrollbar-thumb-muted;
+  }
 
   /* GUTTER */
    .padding-x {
@@ -201,6 +204,10 @@
     scrollbar-gutter: stable;
   }
 
+  .overscroll-contain {
+    overscroll-behavior: contain;
+  }
+
   /* GRADIENTS */
   .black-gradient {
   background: #000000;
@@ -248,6 +255,7 @@
     #f12711,
     #f5af19
   ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }

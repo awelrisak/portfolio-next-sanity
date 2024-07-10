@@ -3,7 +3,7 @@ import { Icons } from "@/components/icons";
 export const customCode = {
   name: "customCode",
   type: "object",
-  icon: Icons.code,
+  icon: () => <Icons.code className="size-3.5" />,
   fields: [
     // {
     //   name: "file",
