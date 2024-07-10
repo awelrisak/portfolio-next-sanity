@@ -6,6 +6,13 @@ export const structure = (S: StructureBuilder) =>
   S.list()
     .title("Content")
     .items([
+      /* FEATURED */
+      S.listItem()
+        .title("Featured")
+        .icon(Icons.star)
+        .child(S.document().schemaType("featured").documentId("featured")),
+      /* DIVIDER */
+      S.divider(),
       /* BLOG */
       S.listItem()
         .title("Blog")
@@ -28,9 +35,7 @@ export const structure = (S: StructureBuilder) =>
                     .child((authorId) =>
                       S.documentList()
                         .params({ authorId })
-                        .filter(
-                          '_type == "post" && $authorId in author[]._ref',
-                        )
+                        .filter('_type == "post" && $authorId in author[]._ref')
                         .title("Posts by author"),
                     ),
                 ),

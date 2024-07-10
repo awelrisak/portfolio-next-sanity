@@ -1,21 +1,24 @@
 import type { SchemaTypeDefinition } from "sanity";
 
 import { author } from "./documents/author";
-import { tag } from "./documents/tag";
+import { featured } from "./documents/featured";
 import { portfolio } from "./documents/portfolio";
 import { post } from "./documents/post";
+import { tag } from "./documents/tag";
+import { alert } from "./objects/alert";
 import { customCode } from "./objects/custom-code";
 import { customImage } from "./objects/custom-image";
 import { portfolioHeroObject } from "./objects/portfolio/hero";
 import { richText } from "./objects/richtext";
-import { alert } from "./objects/alert";
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
+    featured,
     post,
     author,
     tag,
     portfolio,
+
     /* OBJECTS */
     richText,
     customImage,
@@ -23,7 +26,6 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     alert,
     //Porfolio objects
     portfolioHeroObject,
-  
   ],
 };
 
@@ -32,10 +34,10 @@ export const singletonActions = new Set([
   "discardChanges",
   "restore",
 ]);
-export const singletonTypes = new Set(["portfolio"]);
+export const singletonTypes = new Set(["portfolio", "featured"]);
 
 // SCHEMA TYPES TO EXCLUDE FROM LEFT SIDEBAR
-export const excludedListTypes = new Set(["post", "portfolio"]);
+export const excludedListTypes = new Set(["featured", "post", "portfolio"]);
 
 //TODO: below are some docs are no longer in use & need to be deleted:
 

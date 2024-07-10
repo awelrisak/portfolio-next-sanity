@@ -11,6 +11,7 @@ import {
   Menu,
   Moon,
   Rss,
+  Star,
   SunMedium,
   Tags,
   User,
@@ -65,5 +66,6 @@ export const Icons = {
   check: Check,
   tags: Tags,
   briefcase: Briefcase,
-  badgeAlert: BadgeAlert
+  badgeAlert: BadgeAlert,
+  star: Star
 };
