@@ -14,6 +14,7 @@
 
 export declare const internalGroqTypeReferenceTo: unique symbol;
 
+
 // Source: schema.json
 export type SanityImagePaletteSwatch = {
   _type: "sanity.imagePaletteSwatch";
@@ -289,6 +290,21 @@ export type Slug = {
   source?: string;
 };
 
+export type Featured = {
+  _id: string;
+  _type: "featured";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  posts: Array<{
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    _key: string;
+    [internalGroqTypeReferenceTo]?: "post";
+  }>;
+};
+
 export type Code = {
   _type: "code";
   language?: string;
@@ -297,7 +313,28 @@ export type Code = {
   highlightedLines?: Array<number>;
 };
 
-export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityFileAsset | Geopoint | Alert | CustomCode | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata | RichText | Portfolio | Portfolio_hero | Tag | Author | Post | CustomImage | Slug | Code;
+export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityFileAsset | Geopoint | Alert | CustomCode | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata | RichText | Portfolio | Portfolio_hero | Tag | Author | Post | CustomImage | Slug | Featured | Code;
+// Source: ./src/app/blog/page.tsx
+// Variable: blogPageQuery
+// Query:      {      "featuredPosts": *[_type == "featured"][0].posts[]->{         "slug": slug.current,          title,          "image": coverImage.asset->url,          excerpt,         "plainText": pt::text(body),         publishedAt      },      "latestPosts": *[_type == "post"][0..5] | order(publishedAt desc){          "slug": slug.current,          title,          "image": coverImage.asset->url,          excerpt,         "plainText": pt::text(body),         publishedAt      }    }  
+export type BlogPageQueryResult = {
+  featuredPosts: Array<{
+    slug: string;
+    title: string;
+    image: string | null;
+    excerpt: string;
+    plainText: string;
+    publishedAt: string;
+  }> | null;
+  latestPosts: Array<{
+    slug: string;
+    title: string;
+    image: string | null;
+    excerpt: string;
+    plainText: string;
+    publishedAt: string;
+  }>;
+};
 // Source: ./src/app/blog/[slug]/page.tsx
 // Variable: postPageQuery
 // Query:   *[_type == "post" && slug.current == $slug][0]{    _id,    title,    "slug": slug.current,    "coverImage": coverImage.asset->url,    publishedAt,    excerpt,    "headings": body[style in ["h2", "h3", "h4", "h5", "h6"]],    body,    tags[]->{      "slug": slug.current,      name    },    author[]->{      name,      twitter,      "image": image.asset->url,      "slug": slug.current    },    "plainText": pt::text(body),    "keywords": string::split(keywords, ","),    _updatedAt,    "relatedPosts": *[      _type == "post"      && _id != ^._id       && count(tags[@._ref in ^.^.tags[]._ref]) > 0    ]{      title,      "slug": slug.current,      "coverImage": coverImage.asset->url,      publishedAt,      "plainText": pt::text(body)    },    "recentPosts": *[      _type == "post"       && _id != ^._id      && !_id in *[_type == "post"        && _id != ^.^.^._id         && count(tags[@._ref in ^.^.^.tags[]._ref]) > 0      ]      ] | order(publishedAt desc)[0..5]{      title,      "slug": slug.current,      "coverImage": coverImage.asset->url,      publishedAt,      "plainText": pt::text(body)    }  }  

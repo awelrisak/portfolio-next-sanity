@@ -99,6 +99,9 @@
     .featured-posts {
       @apply grid md:grid-cols-2 md:grid-rows-3 gap-x-12 gap-y-7;
     }
+    .featured-post {
+      @apply relative ;
+    }
     .featured-post .featured-post__media {
       @apply relative rounded-sm bg-muted;
     }
@@ -157,7 +160,7 @@
     }
 
     .latest-post {
-      @apply space-y-5;
+      @apply relative space-y-5;
     }
 
      .latest-post .latest-post__media {
