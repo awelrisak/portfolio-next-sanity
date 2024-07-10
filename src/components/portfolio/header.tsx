@@ -57,12 +57,13 @@ export function Header() {
 
       <div className="flex gap-4">
         <Button variant="ghost" size="icon" asChild className="hidden md:inline-flex">
-          <Link href="https://www.twitter.com/abdirizakafarah" target="_blank">
+          <Link href="https://www.twitter.com/abdirizakafarah" target="_blank" aria-label="Abdurezak twitter account">
             <Icons.twitter className="size-[1.2rem]" />
+
           </Link>
         </Button>
         <Button variant="ghost" size="icon" asChild>
-          <Link href="https://www.github.com/awelrisak" target="_blank">
+          <Link href="https://www.github.com/awelrisak" target="_blank" aria-label="Abdurazak github account">
             <Icons.github className="size-[1.2rem]" />
           </Link>
         </Button>
