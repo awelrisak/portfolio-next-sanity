@@ -181,7 +181,7 @@ export default async function Page({ params: { slug } }: PostPageProps) {
 
         <article
           id="post-body"
-          className="pb-7 h-full flex-1 overflow-auto px-7 primary-scrollbar"
+          className="pb-7 h-full flex-1 overflow-auto md:px-7 primary-scrollbar"
         >
           <h1 className="inline-block font-bold text-4xl leading-tight lg:text-5xl">
             {post?.title}
