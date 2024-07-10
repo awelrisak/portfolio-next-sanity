@@ -1,5 +1,4 @@
 "use client";
-import {theme} from 'https://themer.sanity.build/api/hues?primary=915eff'
 import { structure } from "@/sanity/structure";
 import { codeInput } from "@sanity/code-input";
 import { visionTool } from "@sanity/vision";

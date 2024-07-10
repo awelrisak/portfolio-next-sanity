@@ -39,7 +39,7 @@ const ExperienceCard = ({ experience }: ExperienceCardProps) => {
             />
           </div>
         ) : (
-          <Icons.work className="text-black" />
+          <Icons.briefcase className="text-black" />
         )
       }
     >

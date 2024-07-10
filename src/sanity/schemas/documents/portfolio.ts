@@ -5,7 +5,7 @@ export const portfolio: SchemaTypeDefinition = {
   name: "portfolio",
   title: "Portfolio",
   type: "document",
-  icon: Icons.work,
+  icon: Icons.briefcase,
   groups: [
     { name: "hero", title: "Hero section" },
     { name: "skills", title: "Skills section" },
