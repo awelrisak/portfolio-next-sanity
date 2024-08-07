@@ -1,25 +1,25 @@
 import type { PortfolioConfig } from "@/types";
 
-export const portfolioConfig: PortfolioConfig = {
+export const blogConfig: PortfolioConfig = {
   mainNav: [
     {
-      href: "/#about-me",
+      href: "#categories",
       title: "About me",
     },
     {
-      href: "/#experience",
+      href: "#experience",
       title: "Experience",
     },
     {
-      href: "/#skills",
+      href: "#skills",
       title: "Skills",
     },
     {
-      href: "/#projects",
+      href: "#projects",
       title: "Projects",
     },
     {
-      href: "/#contact",
+      href: "#contact",
       title: "Contact",
     },
     {

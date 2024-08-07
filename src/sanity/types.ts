@@ -14,7 +14,6 @@
 
 export declare const internalGroqTypeReferenceTo: unique symbol;
 
-
 // Source: schema.json
 export type SanityImagePaletteSwatch = {
   _type: "sanity.imagePaletteSwatch";
@@ -71,11 +70,28 @@ export type Geopoint = {
   alt?: number;
 };
 
-export type Alert = {
-  _type: "alert";
-  type?: "default" | "destructive";
+export type Callout = {
+  _type: "callout";
+  type: "success" | "info" | "warning" | "destructive";
   title?: string;
-  description?: string;
+  description: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "normal";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }>;
 };
 
 export type CustomCode = {
@@ -174,7 +190,7 @@ export type RichText = Array<{
   _key: string;
 } & CustomCode) | ({
   _key: string;
-} & Alert)>;
+} & Callout)>;
 
 export type Portfolio = {
   _id: string;
@@ -252,6 +268,19 @@ export type Post = {
     alt?: string;
     _type: "customImage";
   };
+  category?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "category";
+  };
+  tags?: Array<{
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    _key: string;
+    [internalGroqTypeReferenceTo]?: "tag";
+  }>;
   author: Array<{
     _ref: string;
     _type: "reference";
@@ -261,13 +290,16 @@ export type Post = {
   }>;
   publishedAt: string;
   body: RichText;
-  tags?: Array<{
-    _ref: string;
-    _type: "reference";
-    _weak?: boolean;
-    _key: string;
-    [internalGroqTypeReferenceTo]?: "tag";
-  }>;
+};
+
+export type Category = {
+  _id: string;
+  _type: "category";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  name: string;
+  slug: Slug;
 };
 
 export type CustomImage = {
@@ -313,10 +345,11 @@ export type Code = {
   highlightedLines?: Array<number>;
 };
 
-export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityFileAsset | Geopoint | Alert | CustomCode | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata | RichText | Portfolio | Portfolio_hero | Tag | Author | Post | CustomImage | Slug | Featured | Code;
+export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityFileAsset | Geopoint | Callout | CustomCode | SanityImageCrop | SanityImageHotspot | SanityImageAsset | SanityAssetSourceData | SanityImageMetadata | RichText | Portfolio | Portfolio_hero | Tag | Author | Post | Category | CustomImage | Slug | Featured | Code;
+
 // Source: ./src/app/blog/page.tsx
 // Variable: blogPageQuery
-// Query:      {      "featuredPosts": *[_type == "featured"][0].posts[]->{         "slug": slug.current,          title,          "image": coverImage.asset->url,          excerpt,         "plainText": pt::text(body),         publishedAt      },      "latestPosts": *[_type == "post"][0..5] | order(publishedAt desc){          "slug": slug.current,          title,          "image": coverImage.asset->url,          excerpt,         "plainText": pt::text(body),         publishedAt      }    }  
+// Query:      {      "featuredPosts": *[_type == "featured"][0].posts[]->{         "slug": slug.current,          title,          "image": coverImage.asset->url,          excerpt,         "plainText": pt::text(body),         publishedAt      },      "latestPosts": *[          _type == "post"          && !(_id in *[_type == "featured"][0].posts[]->._id)          ][0..5] | order(publishedAt desc){            "slug": slug.current,            title,          "image": coverImage.asset->url,            excerpt,            "plainText": pt::text(body),            publishedAt      }    }  
 export type BlogPageQueryResult = {
   featuredPosts: Array<{
     slug: string;
@@ -337,7 +370,7 @@ export type BlogPageQueryResult = {
 };
 // Source: ./src/app/blog/[slug]/page.tsx
 // Variable: postPageQuery
-// Query:   *[_type == "post" && slug.current == $slug][0]{    _id,    title,    "slug": slug.current,    "coverImage": coverImage.asset->url,    publishedAt,    excerpt,    "headings": body[style in ["h2", "h3", "h4", "h5", "h6"]],    body,    tags[]->{      "slug": slug.current,      name    },    author[]->{      name,      twitter,      "image": image.asset->url,      "slug": slug.current    },    "plainText": pt::text(body),    "keywords": string::split(keywords, ","),    _updatedAt,    "relatedPosts": *[      _type == "post"      && _id != ^._id       && count(tags[@._ref in ^.^.tags[]._ref]) > 0    ]{      title,      "slug": slug.current,      "coverImage": coverImage.asset->url,      publishedAt,      "plainText": pt::text(body)    },    "recentPosts": *[      _type == "post"       && _id != ^._id      && !_id in *[_type == "post"        && _id != ^.^.^._id         && count(tags[@._ref in ^.^.^.tags[]._ref]) > 0      ]      ] | order(publishedAt desc)[0..5]{      title,      "slug": slug.current,      "coverImage": coverImage.asset->url,      publishedAt,      "plainText": pt::text(body)    }  }  
+// Query:   *[_type == "post" && slug.current == $slug][0]{    _id,    title,    "slug": slug.current,    "coverImage": coverImage.asset->url,    publishedAt,    excerpt,    "headings": body[style in ["h2", "h3", "h4", "h5", "h6"]],    body,    category-> {      name,      "slug": slug.current    },    tags[]->{      "slug": slug.current,      name    },    author[]->{      name,      twitter,      "image": image.asset->url,      "slug": slug.current    },    "plainText": pt::text(body),    "keywords": string::split(keywords, ","),    _updatedAt,    "relatedPosts": *[      _type == "post"      && _id != ^._id       && count(tags[@._ref in ^.^.tags[]._ref]) > 0    ]{      title,      "slug": slug.current,      "coverImage": coverImage.asset->url,      publishedAt,      "plainText": pt::text(body)    },    "recentPosts": *[      _type == "post"       && _id != ^._id      && !(_id in *[          _type == "post"          && _id != ^.^._id           && count(tags[@._ref in ^.^.^.tags[]._ref]) > 0        ]._id)      ] | order(publishedAt desc)[0..5]{      title,      "slug": slug.current,      "coverImage": coverImage.asset->url,      publishedAt,      "plainText": pt::text(body)    }  }  
 export type PostPageQueryResult = {
   _id: string;
   title: string;
@@ -347,6 +380,10 @@ export type PostPageQueryResult = {
   excerpt: string;
   headings: Array<never>;
   body: RichText;
+  category: {
+    name: string;
+    slug: string;
+  } | null;
   tags: Array<{
     slug: string;
     name: string;

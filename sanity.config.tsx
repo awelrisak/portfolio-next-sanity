@@ -6,24 +6,26 @@ import { defineConfig } from "sanity";
 import { structureTool } from "sanity/structure";
 import { apiVersion, dataset, projectId } from "./src/sanity/env";
 import { schema, singletonActions, singletonTypes } from "./src/sanity/schemas";
+import { defaultDocumentNodeResolver } from "@/sanity/views";
 
 export default defineConfig({
   basePath: "/admin",
   projectId,
+  title: "My site",
   dataset,
   schema,
   document: {
-    actions: (input, context) =>
+    actions: (prev, context) =>
       singletonTypes.has(context.schemaType)
-        ? input.filter(({ action }) => action && singletonActions.has(action))
-        : input,
+        ? prev.filter(({ action }) => action && singletonActions.has(action))
+        : prev,
   },
   plugins: [
     structureTool({
-      structure: structure,
+      title: "Manage",
+      structure,
+      defaultDocumentNode: defaultDocumentNodeResolver,
     }),
-    // Vision is a tool that lets you query your content with GROQ in the studio
-    // https://www.sanity.io/docs/the-vision-plugin
     visionTool({ defaultApiVersion: apiVersion }),
     codeInput(),
   ],

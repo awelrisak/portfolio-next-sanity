@@ -9,10 +9,21 @@
 
 import { NextStudio } from 'next-sanity/studio'
 import config from '../../../../sanity.config'
+import type { Metadata, Viewport } from "next";
 
 export const dynamic = 'force-static'
 
-export { metadata, viewport } from 'next-sanity/studio'
+import {  metadata as sanityMetadata, viewport as sanityViewport } from 'next-sanity/studio'
+
+export const metadata: Metadata = {
+  ...sanityMetadata,
+  title: "admin"
+};
+
+export const viewport: Viewport = {
+  ...sanityViewport,
+  themeColor: "#915EFF",
+};
 
 export default function StudioPage() {
   return <NextStudio config={config} />

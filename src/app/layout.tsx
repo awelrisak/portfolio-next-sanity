@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 import "@/styles/globals.css";
 import type { Metadata, Viewport } from "next";
 import NextTopLoader from "nextjs-toploader";
-import { walsheim } from "./fonts";
+import { arimo, walsheim } from "./fonts";
 
 export const metadata: Metadata = {
   applicationName: siteConfig.name,
@@ -87,6 +87,7 @@ export default function RootLayout({
         className={cn(
           "min-h-screen bg-background font-serif primary-scrollbar antialiased",
           walsheim.variable,
+          arimo.variable,
         )}
       >
         <NextTopLoader
@@ -104,6 +105,7 @@ export default function RootLayout({
           zIndex={1600}
           showAtBottom={false}
         />
+
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"

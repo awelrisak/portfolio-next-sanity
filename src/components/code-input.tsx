@@ -1,8 +1,11 @@
 "use client";
 
-
+import { useTheme } from "next-themes";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
+import {
+  vs,
+  vscDarkPlus,
+} from "react-syntax-highlighter/dist/esm/styles/prism";
 import { CopyButton } from "./copy-button";
 
 interface CodeInputProps {
@@ -12,6 +15,8 @@ interface CodeInputProps {
 }
 
 export function CodeInput({ code, language, filename }: CodeInputProps) {
+  const { theme } = useTheme();
+  const highlighterTheme = theme === "light" ? vs : vscDarkPlus;
   return (
     <figure className="my-6">
       <div className="bg-muted py-1.5 px-4 flex justify-between items-center">
@@ -25,11 +30,12 @@ export function CodeInput({ code, language, filename }: CodeInputProps) {
 
       <SyntaxHighlighter
         language={language}
-        style={oneDark}
-        customStyle={{
-          padding: "1rem",
-          margin: 0,
+        style={highlighterTheme}
+        customStyle={{ 
+          margin: 0
         }}
+        showLineNumbers
+        
       >
         {code}
       </SyntaxHighlighter>

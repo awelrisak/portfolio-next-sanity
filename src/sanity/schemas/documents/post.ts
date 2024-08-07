@@ -1,5 +1,5 @@
 import { Icons } from "@/components/icons";
-import moment from 'moment';
+import moment from "moment";
 import type { Rule, SchemaTypeDefinition } from "sanity";
 
 export const post: SchemaTypeDefinition = {
@@ -64,6 +64,22 @@ export const post: SchemaTypeDefinition = {
       fieldset: "seo",
     },
     {
+      name: "category",
+      title: "Category",
+      description:
+        "Classify your post under a relevant category to enhance organization and search visibility.",
+      type: "reference",
+      to: [{ type: "category" }],
+    },
+    {
+      name: "tags",
+      title: "Tags",
+      type: "array",
+      description:
+        "Use specific tags to help list related posts and improve discoverability.",
+      of: [{ type: "reference", to: [{ type: "tag" }] }],
+    },
+    {
       name: "author",
       title: "Author(s)",
       type: "array",
@@ -76,7 +92,7 @@ export const post: SchemaTypeDefinition = {
       name: "publishedAt",
       title: "Published at",
       type: "datetime",
-      initialValue: () => new Date().toISOString(),
+      initialValue: () => (new Date()).toISOString(),
       validation: (rule: Rule) => [
         rule.required().error("Published time is required"),
       ],
@@ -89,29 +105,20 @@ export const post: SchemaTypeDefinition = {
         rule.required().error("Post body is required."),
       ],
     },
-    {
-      name: "tags",
-      title: "Tags",
-      type: "array",
-      description:
-        "Keywords related to your post to categorize and improve searchability.",
-      of: [{ type: "reference", to: [{ type: "tag" }] }],
-    },
   ],
   preview: {
     select: {
       title: "title",
       image: "coverImage",
       publishedAt: "publishedAt",
-
     },
-    prepare({title, image, publishedAt}){
-      const formattedDate = moment(publishedAt).format("LLL")
+    prepare({ title, image, publishedAt }) {
+      const formattedDate = moment(publishedAt).format("LLL");
       return {
         title,
         media: image,
-        subtitle: formattedDate
-      }
-    }
+        subtitle: formattedDate,
+      };
+    },
   },
 };

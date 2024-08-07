@@ -23,15 +23,12 @@ export function Header() {
   const active = useActiveItem(itemIds); // TODO: fix this
 
   return (
-    <header className="container sticky top-0  h-20 flex items-center justify-between z-40 bg-background/95 backdrop-blur-xl ">
-      {/* LOGO  */}
+    <header className="container sticky top-0  h-20 flex items-center justify-between z-40 bg-background/95 backdrop-blur-xl">
       <Link href="/" className="flex items-center">
         <span className="font-black text-xl inline-block">
           {siteConfig.name}
         </span>
       </Link>
-
-      {/* NAVBAR  */}
 
       <nav className="hidden gap-6 md:flex">
         {items?.map((item) => (
@@ -39,11 +36,10 @@ export function Header() {
             key={item.href}
             href={item.disabled ? "#" : item.href}
             className={cn(
-              "font-bold text-lg  lg:text-xl transition-colors text-foreground/60 hover:text-foreground",
+              "font-bold  transition-colors text-foreground/60 hover:text-foreground",
               {
                 "text-foreground": item.href.startsWith(`/${segment}`),
                 "text-foreground/60": !item.href.startsWith(`/${segment}`),
-                // "text-foreground/60": active !== item.title,
                 "cursor-not-allowed opacity-80": item.disabled,
               },
             )}
@@ -53,17 +49,27 @@ export function Header() {
         ))}
       </nav>
 
-      {/* UTILS BUTTONS  */}
-
       <div className="flex gap-4">
-        <Button variant="ghost" size="icon" asChild className="hidden md:inline-flex">
-          <Link href="https://www.twitter.com/abdirizakafarah" target="_blank" aria-label="Abdurezak twitter account">
+        <Button
+          variant="ghost"
+          size="icon"
+          asChild
+          className="hidden md:inline-flex"
+        >
+          <Link
+            href="https://www.twitter.com/abdirizakafarah"
+            target="_blank"
+            aria-label="Abdurezak twitter account"
+          >
             <Icons.twitter className="size-[1.2rem]" />
-
           </Link>
         </Button>
         <Button variant="ghost" size="icon" asChild>
-          <Link href="https://www.github.com/awelrisak" target="_blank" aria-label="Abdurazak github account">
+          <Link
+            href="https://www.github.com/awelrisak"
+            target="_blank"
+            aria-label="Abdurazak github account"
+          >
             <Icons.github className="size-[1.2rem]" />
           </Link>
         </Button>

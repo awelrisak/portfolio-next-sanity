@@ -17,6 +17,16 @@ export const featured: SchemaTypeDefinition = {
         rule.unique().error("Featured posts should be unique"),
       ],
     },
+    {
+      name: "categories",
+      title: "Featured Categories",
+      type: "array",
+      of: [{ type: "reference", to: [{ type: "category" }] }],
+      validation: (rule: Rule) => [
+        rule.required().error("Featured categories are required"),
+        rule.unique().error("Featured categories should be unique"),
+      ],
+    },
   ],
 
   preview: {

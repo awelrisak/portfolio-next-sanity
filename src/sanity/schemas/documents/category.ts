@@ -1,18 +1,18 @@
 import { Icons } from "@/components/icons";
 import type { Rule, SchemaTypeDefinition } from "sanity";
 
-export const tag: SchemaTypeDefinition = {
-  name: "tag",
-  title: "Tag",
-  icon: Icons.tags,
+export const category: SchemaTypeDefinition = {
+  name: "category",
+  title: "Category",
+  icon: Icons.category,
   type: "document",
   fields: [
     {
       name: "name",
-      title: "Tag Name",
+      title: "Category Name",
       type: "string",
       validation: (rule: Rule) => [
-        rule.required().error("Tag name is required."),
+        rule.required().error("Category name is required."),
       ],
     },
     {
@@ -24,7 +24,7 @@ export const tag: SchemaTypeDefinition = {
         maxLength: 96,
       },
       validation: (rule: Rule) => [
-        rule.required().error("tag slug is required."),
+        rule.required().error("Category slug is required."),
       ],
     },
   ],

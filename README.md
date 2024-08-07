@@ -6,4 +6,5 @@ TODO:
 
 BLOG POSTS
 = How to remove ugly title in sanity singleton document
-
+- sanity algolia nextjs
+- sanity code input

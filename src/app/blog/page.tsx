@@ -28,13 +28,16 @@ async function getBlogPageData(): Promise<BlogPageQueryResult> {
          "plainText": pt::text(body),
          publishedAt
       },
-      "latestPosts": *[_type == "post"][0..5] | order(publishedAt desc){
-          "slug": slug.current,
-          title,
+      "latestPosts": *[
+          _type == "post"
+          && !(_id in *[_type == "featured"][0].posts[]->._id)
+          ][0..5] | order(publishedAt desc){
+            "slug": slug.current,
+            title,
           "image": coverImage.asset->url,
-          excerpt,
-         "plainText": pt::text(body),
-         publishedAt
+            excerpt,
+            "plainText": pt::text(body),
+            publishedAt
       }
     }
   `;

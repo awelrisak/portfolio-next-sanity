@@ -13,7 +13,7 @@ export function Hero({
 }: HeroProps) {
   return (
     <section className="relative w-full h-[calc(100vh-5rem)] mx-auto flex flex-col justify-center ">
-      <div className="max-w-3xl padding-x flex  items-start gap-5 mx=auto">
+      <div className="max-w-3xl padding-x flex  items-start gap-5">
         <div className="hidden dark:flex h-full flex-col justify-center items-center">
           <div className="size-5 rounded-full bg-primary" />
           <div className="w-1 flex-1 violet-gradient" />

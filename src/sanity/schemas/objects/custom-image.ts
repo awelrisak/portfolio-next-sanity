@@ -1,4 +1,6 @@
-export const customImage = {
+import type { ImageDefinition } from "sanity";
+
+export const customImage: ImageDefinition = {
   name: "customImage",
   type: "image",
   fields: [

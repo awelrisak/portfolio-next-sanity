@@ -8,7 +8,9 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 
+import type { BlockDecoratorProps } from "sanity";
 import slugify from "slugify";
+import { Callout } from "./callout";
 import { CodeInput } from "./code-input";
 
 interface PortableTextProps extends PortableTextPropsType {
@@ -19,7 +21,7 @@ export function PortableText({
   components = portableTextComponents,
   ...props
 }: PortableTextProps) {
-  return <PortableTextReact components={portableTextComponents} {...props} />;
+  return <PortableTextReact components={components} {...props} />;
 }
 
 const portableTextComponents: PortableTextComponents = {
@@ -34,13 +36,24 @@ const portableTextComponents: PortableTextComponents = {
       />
     ),
 
-    customCode: ({ value }) => {
-      const code = String(value.code.code);
+    customCode: ({ value: { code } }) => {
       return (
-        <CodeInput
-          code={code}
-          language={value.language}
-          filename={value.code.filename}
+        <>
+          <CodeInput
+            code={code.code}
+            language={code.language}
+            filename={code.filename}
+          />
+        </>
+      );
+    },
+
+    callout: ({ value }) => {
+      return (
+        <Callout
+          title={value.title}
+          type={value.type}
+          description={value.description}
         />
       );
     },
@@ -60,10 +73,13 @@ const portableTextComponents: PortableTextComponents = {
         </Link>
       );
     },
-    code: ({ value, children }) => (
+    code: ({ children }) => (
       <code className="relative rounded border px-[0.3rem] py-[0.2rem] font-mono text-sm">
         {children}
       </code>
+    ),
+    highlight: ({ children }) => (
+      <mark style={{ backgroundColor: "yellow" }}>{children}</mark>
     ),
   },
   list: {

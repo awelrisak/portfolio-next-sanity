@@ -1,7 +1,6 @@
 "use client";
-//TODO: move from react-vertical-timeline-component
-
 import type { Experience as IExperientce } from "@/types";
+//TODO: move from react-vertical-timeline-component
 
 import Image from "next/image";
 import {
@@ -10,6 +9,7 @@ import {
 } from "react-vertical-timeline-component";
 import "react-vertical-timeline-component/style.min.css";
 import { Icons } from "@/components/icons";
+import React from "react";
 
 interface ExperienceCardProps {
   experience: IExperientce;

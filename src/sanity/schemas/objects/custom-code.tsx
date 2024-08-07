@@ -5,11 +5,6 @@ export const customCode = {
   type: "object",
   icon: () => <Icons.code className="size-3.5" />,
   fields: [
-    // {
-    //   name: "file",
-    //   title: "File name",
-    //   type: "string",
-    // },
     {
       name: "code",
       title: "Code",

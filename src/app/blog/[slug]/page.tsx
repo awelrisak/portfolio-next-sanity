@@ -20,7 +20,7 @@ interface PostPageProps {
   };
 }
 
-async function getPostPageData(slug: string): Promise<PostPageQueryResult> {
+async function getPostPageData(slug: string) {
   const postPageQuery = groq`
   *[_type == "post" && slug.current == $slug][0]{
     _id,
@@ -31,6 +31,10 @@ async function getPostPageData(slug: string): Promise<PostPageQueryResult> {
     excerpt,
     "headings": body[style in ["h2", "h3", "h4", "h5", "h6"]],
     body,
+    category-> {
+      name,
+      "slug": slug.current
+    },
     tags[]->{
       "slug": slug.current,
       name
@@ -60,10 +64,11 @@ async function getPostPageData(slug: string): Promise<PostPageQueryResult> {
     "recentPosts": *[
       _type == "post" 
       && _id != ^._id
-      && !_id in *[_type == "post"
-        && _id != ^.^.^._id 
-        && count(tags[@._ref in ^.^.^.tags[]._ref]) > 0
-      ]
+      && !(_id in *[
+          _type == "post"
+          && _id != ^.^._id 
+          && count(tags[@._ref in ^.^.^.tags[]._ref]) > 0
+        ]._id)
       ] | order(publishedAt desc)[0..5]{
       title,
       "slug": slug.current,
@@ -74,14 +79,14 @@ async function getPostPageData(slug: string): Promise<PostPageQueryResult> {
   }
   `;
 
-  const data = await client.fetch(postPageQuery, { slug });
-  return data;
+  return client.fetch<PostPageQueryResult>(postPageQuery, { slug });
+  
 }
 
 export async function generateMetadata({
-  params
+  params,
 }: PostPageProps): Promise<Metadata> {
-  const {slug} = params
+  const { slug } = params;
   const post = await getPostPageData(slug);
 
   if (!post) {
@@ -132,7 +137,6 @@ export default async function Page({ params: { slug } }: PostPageProps) {
     author: post.author.map((author) => ({
       "@type": "Person",
       "@id": `http://www.twitter.com/${author.twitter}`,
-      url: `http://www.twitter.com/${author.twitter}`,
       name: author.name,
     })),
     publisher: {
@@ -171,10 +175,12 @@ export default async function Page({ params: { slug } }: PostPageProps) {
         // biome-ignore lint/security/noDangerouslySetInnerHtml: <explanation>
         dangerouslySetInnerHTML={{ __html: postJsonLd }}
       />
-      <main className="relative container pb-7 md:pb-0  md:h-[calc(100vh-4rem)] md:flex lg:gap-x-10">
-        <div className="hidden h-full lg:flex flex-col overflow-y-auto lg:w-[200px] px-3 scrollbar-none">
+      <main className="relative container pb-7 md:pb-0  md:h-[calc(100vh-5rem)] md:flex lg:gap-x-10">
+        <div className="hidden relative h-full lg:flex flex-col overflow-y-auto lg:w-[210px] primary-scrollbar">
+          <h2 className="sticky top-0 bg-background font-semibold">
+            On this page:
+          </h2>
           <section className="my-5 ml-auto flex flex-col gap-y-5 w-[180px]">
-            <h2 className="font-bold text-sm">On this page:</h2>
             <TOC headings={post.headings} />
           </section>
         </div>
@@ -183,6 +189,18 @@ export default async function Page({ params: { slug } }: PostPageProps) {
           id="post-body"
           className="pb-7 h-full flex-1 overflow-auto md:px-7 primary-scrollbar"
         >
+          {post.category && (
+            <p className="mb-2 text-sm text-muted-foreground space-x-2">
+              <span>Blog</span>
+              <span>&#x2022;</span>
+              <Link
+                href={`/blog?category=${post.category.slug}`}
+                className="font-medium hover:underline underline-offset-4"
+              >
+                {post.category.name}
+              </Link>
+            </p>
+          )}
           <h1 className="inline-block font-bold text-4xl leading-tight lg:text-5xl">
             {post?.title}
           </h1>
@@ -192,11 +210,11 @@ export default async function Page({ params: { slug } }: PostPageProps) {
                 <Link
                   key={author.slug}
                   href={`https://twitter.com/${author.twitter}`}
-                  className="flex items-center space-x-2 text-sm"
+                  className="flex items-center space-x-2"
                   target="_blank"
                 >
                   {author.image && (
-                    <div className="relative size-9 rounded-full">
+                    <div className="relative size-10 rounded-full">
                       <Image
                         src={author.image}
                         alt={`${author.name} image`}
@@ -205,11 +223,13 @@ export default async function Page({ params: { slug } }: PostPageProps) {
                       />
                     </div>
                   )}
-                  <div className="flex-1 text-left leading-tight">
+                  <div className="flex-1 text-left text-sm leading-tight">
                     <p className="font-medium">{author.name}</p>
                     <p className="text-[12px] text-muted-foreground">
                       <Moment format="MMMM DD, YYYY" date={post.publishedAt} />
-                      <span className="mx-1.5">&#x2022;</span>
+                      <span className="mx-1.5" aria-hidden>
+                        &#x2022;
+                      </span>
                       <span>{readingTime(post.plainText).text}</span>
                     </p>
                   </div>
@@ -233,8 +253,8 @@ export default async function Page({ params: { slug } }: PostPageProps) {
 
         <Separator className="md:hidden my-12" />
 
-        <aside className="h-full md:max-w-[280px] px-3 space-y-8 md:space-y-11 overflow-y-auto scrollbar scrollbar-stable scrollbar-w-2.5 scrollbar-thumb-muted">
-          {post.relatedPosts && (
+        <aside className="h-full md:w-[280px] px-3 pb-5 space-y-11 overflow-y-auto scrollbar scrollbar-stable scrollbar-w-2.5 scrollbar-thumb-muted">
+          {post.relatedPosts.length > 0 && (
             <PostsList
               title="also read"
               link={{
@@ -322,7 +342,9 @@ function PostListItem({ post }: PostListItemProps) {
         <h3 className="text-sm line-clamp-2">{post.title}</h3>
         <p className="text-xs text-muted-foreground">
           <Moment format="MMMM D YYYY" date={post.publishedAt} />
-          <span className="mx-2">&#x2022;</span>
+          <span className="mx-2" aria-hidden>
+            &#x2022;
+          </span>
           <span>{readingTime(post.plainText).text}</span>
         </p>
       </section>

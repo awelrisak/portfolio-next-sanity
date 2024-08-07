@@ -1,8 +1,8 @@
 import { Icons } from "@/components/icons";
-import type { StructureBuilder } from "sanity/structure";
 import { excludedListTypes } from "./schemas";
+import { StructureResolver } from "sanity/structure";
 
-export const structure = (S: StructureBuilder) =>
+export const structure: StructureResolver = (S) =>
   S.list()
     .title("Content")
     .items([
@@ -36,8 +36,13 @@ export const structure = (S: StructureBuilder) =>
                       S.documentList()
                         .params({ authorId })
                         .filter('_type == "post" && $authorId in author[]._ref')
-                        .title("Posts by author"),
-                    ),
+                        .title("Posts by author")
+                        .initialValueTemplates([
+                          S.initialValueTemplateItem("post-by-author", {
+                            authorId,
+                          }),
+                        ])
+                    )
                 ),
               S.listItem()
                 .title("By tags")
@@ -46,19 +51,23 @@ export const structure = (S: StructureBuilder) =>
                   S.documentTypeList("tag")
                     .title("filter posts by tags")
                     .child((tagId) =>
-                      S.documentList()
-                        .params({ tagId })
-                        .filter('_type == "post" && $tagId in tags[]._ref')
-                        .title("Posts by tags"),
-                    ),
+                      S.documentTypeList("post")
+                        .params({ tagId, type: "post" })
+                        .filter("_type == $type && $tagId in tags[]._ref")
+                        .title("Posts by tags")
+                        .initialValueTemplates([
+                          S.initialValueTemplateItem("post-by-tag", { tagId }),
+                        ])
+                    )
                 ),
-            ]),
+            ])
         ),
+
       S.divider(),
       /* SCHEMA TYPES EXCEPT EXCLUDED ONE */
       ...S.documentTypeListItems().filter(
         // biome-ignore lint/style/noNonNullAssertion: <explanation>
-        (listItem) => !excludedListTypes.has(listItem.getId()!),
+        (listItem) => !excludedListTypes.has(listItem.getId()!)
       ),
       S.divider(),
       /* PORTFOLIO */

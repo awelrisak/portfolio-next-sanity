@@ -15,15 +15,23 @@ import {
 import { getSanityData } from "@/lib/utils/get-sanity";
 
 export default async function Page() {
-  const QUERY = `{
-  "hero": *[_type=="portfolio_hero"][0]{
-    greeting,
-    firstName,
-    lastName,
-    description
-  },
-  "skills": *[_type=="skill"][0]
-   }`;
+  const QUERY = `
+   *[_type == "portfolio" ][0]{
+    hero {
+        greeting,
+        firstName,
+        lastName,
+        description,
+    },
+    about {
+        heading,
+        subheading,
+        content
+    },
+
+    "skills": *[_type=="skill"][0]
+   }
+   `;
   const data = await getSanityData(QUERY);
 
   return (
@@ -31,12 +39,12 @@ export default async function Page() {
       <div className="dark:bg-hero-pattern bg-cover bg-no-repeat bg-center">
         <Hero {...data.hero} />
       </div>
-      <About services={services} />
+      <About services={services} {...data.about} />
       <Experience experiences={experiences} />
       <Skills skills={data.skills} />
       <Projects projects={projects} />
       <Testimonials testimonials={testimonials} />
-      <div className="relative z-0">
+      <div className="relative z-0 section">
         <Contact />
       </div>
     </main>
